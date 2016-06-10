@@ -130,6 +130,7 @@ const submit = e => {
       , path
       , errMsg
       , raw
+      , datasetSpecificFields
 
     e.preventDefault()
 
@@ -139,12 +140,17 @@ const submit = e => {
 
     source = {
         url: form.url.value,
-        species: form.species.value.split(', '),
         attribution: form.attribution.value,
         properties: {},
-        country: form.country.value,
-        state: form.state.value,
-        filetype: form.filetype.value
+        filetype: form.filetype.value,
+        name: form.datasetname.value
+    }
+
+    datasetSpecificFields = getDatasetSpecificFields()
+    for (let property in datasetSpecificFields) {
+        if (datasetSpecificFields.hasOwnProperty(property)) {
+            source[property] = datasetSpecificFields[property];
+        }
     }
 
     for (let property of ['id', 'name']) {
